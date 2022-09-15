@@ -1,11 +1,7 @@
 trigger:
   branches:
     include:
-<<<<<<< Updated upstream
-    - master
-=======
     - outsystems
->>>>>>> Stashed changes
 pr: none
 
 variables:
