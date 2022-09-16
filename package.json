@@ -1,5 +1,5 @@
 {
-  "name": "requirejs",
+  "name": "@outsystems/requirejs",
   "license": "MIT",
   "volo": {
     "url": "https://raw.github.com/requirejs/requirejs/{version}/require.js"
