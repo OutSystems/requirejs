@@ -47,6 +47,7 @@ stages:
               (Get-Content require.js) -replace 'version = ''.*'',', "version = '$version'," | Out-File require.js
             displayName: Bumping version
           - script: | 
+              npm i -y
               npx uglifyjs require.js -mc --comments -o ./bin/r.js
             displayName: Bundling requirejs
           - script: | 
