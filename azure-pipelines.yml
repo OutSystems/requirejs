@@ -35,19 +35,16 @@ stages:
               git branch
               git pull
             displayName: Fetching assets
+          #Restore the project packages
+          - task: npmAuthenticate@0
+            inputs:
+              workingFile: '.npmrc'
+              customEndpoint: 'NPM Authentication Token'
           - script: | 
               npm version prerelease --preid=outsystems --no-git-tag-version
               git branch --no-color --show-current
               $version = ((Get-Content "package.json" -Raw) | ConvertFrom-Json)[0].version
               (Get-Content require.js) -replace 'version = ''.*'',', "version = '$version'," | Out-File require.js
-              echo "Bundling requirejs"
-              uglifyjs require.js -mc --comments -o ./bin/r.js
-              echo "Creating pull request"
-              $newBranch = "bump/${version}"
-              git checkout -b ${newBranch}
-              git add -u
-              git commit -m "[Pipeline] Bump version to ${newVersionNumber}"
-              git push -u origin ${newBranch}
             displayName: Bumping version
           - script: | 
               npx uglifyjs require.js -mc --comments -o ./bin/r.js
