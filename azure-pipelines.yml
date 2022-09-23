@@ -45,10 +45,12 @@ stages:
               git branch --no-color --show-current
               $version = ((Get-Content "package.json" -Raw) | ConvertFrom-Json)[0].version
               (Get-Content require.js) -replace 'version = ''.*'',', "version = '$version'," | Out-File require.js
+              gc require.js | Select-String -Pattern "version = '.*',"
             displayName: Bumping version
           - script: | 
               npm i -y
               npx uglifyjs require.js -mc --comments -o ./bin/r.js
+              gc require.js | Select-String -Pattern "='$version',"
             displayName: Bundling requirejs
           - script: | 
               $newBranch = "bump/${version}"
