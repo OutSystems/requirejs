@@ -31,7 +31,9 @@ stages:
           - script: dir
             displayName: List directory
           - checkout: self
-          - script: git branch
+          - script: | 
+              git branch
+              git switch fix/yaml
             displayName: Branch name
           - task: npmAuthenticate@0
             inputs:
