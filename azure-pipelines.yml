@@ -50,7 +50,7 @@ stages:
               git push -u origin ${newBranch}
             displayName: Bumping version
           - script: uglifyjs require.js -mc --comments -o ./bin/r.js
-          displayName: Bundling requirejs
+            displayName: Bundling requirejs
           - script: | 
               $newBranch = "bump/${version}"
               git checkout -b ${newBranch}
