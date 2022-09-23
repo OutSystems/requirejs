@@ -28,42 +28,24 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: dir
-            displayName: List directory
           - checkout: self
           - script: | 
-              git branch
+              echo "Fetching assets"
               git fetch
-              git switch outsystems
-            displayName: Branch name
-          - script: dir
-            displayName: List directory
-          - script: |
-              dir .
-              node ./tools/bump-version.js
+              git switch fix/yaml
+              git branch
+              git pull origin/fix/yaml
+              echo "Raising version"
+              npm version prerelease --preid=outsystems --no-git-tag-version
+              git branch --no-color --show-current
+              $version = ((Get-Content "package.json" -Raw) | ConvertFrom-Json)[0].version
+              (Get-Content require.js) -replace 'version = ''.*'',', "version = '$version'," | Out-File require.js
+              echo "Bundling requirejs"
+              uglifyjs require.js -mc --comments -o ./bin/r.js
+              echo "Creating pull request"
+              $newBranch = "bump/${version}"
+              git checkout -b ${newBranch}
+              git add -u
+              git commit -m "[Pipeline] Bump version to ${newVersionNumber}"
+              git push -u origin ${newBranch}
             displayName: Bump version
-          - script: uglifyjs require.js -mc --comments -o ./bin/r.js
-            displayName: Build requirejs distribution
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)'
-              artifact: 'artifacts'
-              publishLocation: 'pipeline'
-          #Creates a Github release
-          - task: GitHubRelease@1
-            inputs:
-              gitHubConnection: 'GitHub Release'
-              repositoryName: '$(Build.Repository.Name)'
-              action: 'create'
-              target: '$(Build.SourceVersion)'
-              tagSource: 'userSpecifiedTag'
-              tag: '$(TagName)'
-              changeLogCompareToRelease: 'lastFullRelease'
-              changeLogType: 'commitBased'
-          #Publishes the package into the private artifact repository    
-          - task: Npm@1
-            inputs:
-              command: 'publish'
-              workingDir: '$(Pipeline.Workspace)/artifacts/'
-              publishRegistry: 'useFeed'
-              publishFeed: 'd8b4d1eb-aeb3-4b5b-9b43-37b4fc985e2f'

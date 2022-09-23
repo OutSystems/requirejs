@@ -21,14 +21,14 @@ function exec(cmd) {
 function execAndOutput(cmd) {
     return execSync(cmd, { env: process.env }).toString();
 }
-exec('cd ..');
+
 exec('git pull origin/fix/yaml');
 exec(`npm version prerelease --preid=outsystems --no-git-tag-version`);
 
 const cwd = process.cwd();
 const currentBranch = execAndOutput('git branch --no-color --show-current').replace(/[\r\n]+/, "");
 
-const newVersionNumber = require('./package.json').version;
+const newVersionNumber = require('../package.json').version;
 
 const filesToChangeVersion = ["require.js"];
 filesToChangeVersion.forEach(file => {
