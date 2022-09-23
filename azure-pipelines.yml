@@ -49,7 +49,8 @@ stages:
               git commit -m "[Pipeline] Bump version to ${newVersionNumber}"
               git push -u origin ${newBranch}
             displayName: Bumping version
-          - script: uglifyjs require.js -mc --comments -o ./bin/r.js
+          - script: | 
+              npx uglifyjs require.js -mc --comments -o ./bin/r.js
             displayName: Bundling requirejs
           - script: | 
               $newBranch = "bump/${version}"
