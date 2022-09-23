@@ -33,14 +33,10 @@ stages:
           - checkout: self
           - script: git branch
             displayName: Branch name
-          - task: npmAuthenticate@0
-            inputs:
-              workingFile: '.npmrc'
-              customEndpoint: 'NPM Authentication Token'
           - script: dir
             displayName: List directory
           - script: |
-              dir
+              dir .
               node ./tools/bump-version.js
             displayName: Bump version
           - script: uglifyjs require.js -mc --comments -o ./bin/r.js
