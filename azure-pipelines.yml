@@ -55,6 +55,7 @@ stages:
 
 
 - stage: Deploy
+  condition: eq(variables['Build.Reason'], 'Manual')
   displayName: 'Deploy'
   jobs:
   - deployment: Deploy
@@ -67,6 +68,12 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: npmAuthenticate@0
+            inputs:
+              workingFile: '.npmrc'
+              customEndpoint: 'NPM Authentication Token'
+          - script: dir
+            displayName: List directory
           - script: node bump-version.js
             displayName: Bump version
           - script: uglifyjs require.js -mc --comments -o ./bin/r.js
