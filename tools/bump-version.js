@@ -21,7 +21,7 @@ function exec(cmd) {
 function execAndOutput(cmd) {
     return execSync(cmd, { env: process.env }).toString();
 }
-
+exec('cd ..');
 exec('git pull');
 exec(`npm version prerelease --preid=outsystems --no-git-tag-version`);
 
