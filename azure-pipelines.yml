@@ -31,7 +31,10 @@ stages:
           - script: dir
             displayName: List directory
           - checkout: self
-          - script: git branch
+          - script: | 
+              git branch
+              git fetch
+              git switch outsystems
             displayName: Branch name
           - script: dir
             displayName: List directory
