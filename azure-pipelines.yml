@@ -52,13 +52,7 @@ stages:
       inputs:
         target: Tests
         arguments: '--configuration=Release -Pipeline'
-     
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'artifacts'
-        publishLocation: 'pipeline'
-    
+
 
 - stage: Deploy
   displayName: 'Deploy'
@@ -73,6 +67,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - name: Bump version
+            run: |
+              node bump-version.js
+          - name: Build requirejs distribution
+            run: |
+              uglifyjs require.js -mc --comments -o ./bin/r.js
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)'
+              artifact: 'artifacts'
+              publishLocation: 'pipeline'
           #Creates a Github release
           - task: GitHubRelease@1
             inputs:
