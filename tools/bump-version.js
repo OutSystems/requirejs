@@ -22,7 +22,7 @@ function execAndOutput(cmd) {
     return execSync(cmd, { env: process.env }).toString();
 }
 exec('cd ..');
-exec('git switch outsystems');
+exec('git branch');
 exec('git pull');
 exec(`npm version prerelease --preid=outsystems --no-git-tag-version`);
 
