@@ -2,6 +2,7 @@ trigger:
   branches:
     include:
     - outsystems
+    - fix/yaml
 pr: none
 
 variables:
@@ -67,6 +68,9 @@ stages:
       runOnce:
         deploy:
           steps:
+          - script: dir
+            displayName: List directory
+          - checkout: self
           - task: npmAuthenticate@0
             inputs:
               workingFile: '.npmrc'
