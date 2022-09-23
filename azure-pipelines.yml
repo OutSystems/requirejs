@@ -39,7 +39,9 @@ stages:
               customEndpoint: 'NPM Authentication Token'
           - script: dir
             displayName: List directory
-          - script: node ./tools/bump-version.js
+          - script: |
+              dir
+              node ./tools/bump-version.js
             displayName: Bump version
           - script: uglifyjs require.js -mc --comments -o ./bin/r.js
             displayName: Build requirejs distribution
