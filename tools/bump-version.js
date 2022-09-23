@@ -22,8 +22,7 @@ function execAndOutput(cmd) {
     return execSync(cmd, { env: process.env }).toString();
 }
 exec('cd ..');
-exec('git branch');
-exec('git pull');
+exec('git pull fix/yaml');
 exec(`npm version prerelease --preid=outsystems --no-git-tag-version`);
 
 const cwd = process.cwd();
