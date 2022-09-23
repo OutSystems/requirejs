@@ -67,12 +67,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - name: Bump version
-            run: |
-              node bump-version.js
-          - name: Build requirejs distribution
-            run: |
-              uglifyjs require.js -mc --comments -o ./bin/r.js
+          - script: node bump-version.js
+            displayName: Bump version
+          - script: uglifyjs require.js -mc --comments -o ./bin/r.js
+            displayName: Build requirejs distribution
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)'
