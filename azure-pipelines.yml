@@ -33,7 +33,7 @@ stages:
               git fetch
               git switch fix/yaml
               git branch
-              git pull origin/fix/yaml
+              git pull
             displayName: Fetching assets
           - script: | 
               npm version prerelease --preid=outsystems --no-git-tag-version
