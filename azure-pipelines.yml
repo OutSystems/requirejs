@@ -22,7 +22,7 @@ stages:
     displayName: 'Deploy to npm private repository and creates a git release'
     timeoutInMinutes: 8
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'ubuntu-latest'
     environment: Automatic-Release
     strategy: 
       runOnce:
