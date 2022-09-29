@@ -45,12 +45,12 @@ stages:
               git branch --no-color --show-current
               VERSION=`cat "package.json" | jq -r ".version"`
               sed -i "s/version = '.*',/version = '$VERSION',/g" require.js
-              cat require.js
             displayName: Bumping version
           - script: | 
               npm i -y
+              mkdir -p ./bin
               npx uglifyjs require.js -mc --comments -o ./bin/r.js
-              gc require.js | Select-String -Pattern "='$version',"
+            #gc require.js | Select-String -Pattern "='$version',"
             displayName: Bundling requirejs
           - script: | 
               $newBranch = "bump/${version}"
