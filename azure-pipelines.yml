@@ -44,7 +44,8 @@ stages:
               npm version prerelease --preid=outsystems --no-git-tag-version
               git branch --no-color --show-current
               VERSION=`cat "package.json" | jq -r ".version"`
-              sed -i "s/version = .*,/version = $VERSION,/g" require.js
+              sed -i "s/version = '.*',/version = '$VERSION',/g" require.js
+              cat require.js
             displayName: Bumping version
           - script: | 
               npm i -y
