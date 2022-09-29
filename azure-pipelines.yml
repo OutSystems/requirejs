@@ -45,7 +45,8 @@ stages:
               git branch --no-color --show-current
               $version = $(cat "package.json" | jq -r ".version")
               sed -i 's/version = "'.*'","/version = '$version'/g' require.js
-              gc require.js | Select-String -Pattern "version = '.*',"
+              cat require.js
+              grep -F "version = '.*'," require.js
             displayName: Bumping version
           - script: | 
               npm i -y
