@@ -53,9 +53,9 @@ stages:
             displayName: Bundling requirejs
           - script: |
               VERSION=`cat "package.json" | jq -r ".version"` 
-              $newBranch = "bump/$VERSION"
-              git checkout -b ${newBranch}
+              newBranch="bump/$VERSION"
+              git checkout -b $newBranch
               git add -u
               git commit -m "[Pipeline] Bump version to $VERSION"
-              git push -u origin ${newBranch}
+              git push -u origin $newBranch
             displayName: Creating pull request
