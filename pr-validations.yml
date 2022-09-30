@@ -1,0 +1,15 @@
+name: Build and validate minify require.js
+
+on:
+  pull_request:
+    types: [ opened, edited, reopened, synchronize, ready_for_review ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - script: | 
+          npm i -y
+          npx uglifyjs require.js -mc --comments -o ./output.txt
+        displayName: Bundling requirejs
