@@ -50,12 +50,12 @@ stages:
               npm i -y
               mkdir -p ./bin
               npx uglifyjs require.js -mc --comments -o ./bin/r.js
-            #gc require.js | Select-String -Pattern "='$version',"
             displayName: Bundling requirejs
-          - script: | 
-              $newBranch = "bump/${version}"
+          - script: |
+              VERSION=`cat "package.json" | jq -r ".version"` 
+              $newBranch = "bump/$VERSION"
               git checkout -b ${newBranch}
               git add -u
-              git commit -m "[Pipeline] Bump version to ${newVersionNumber}"
+              git commit -m "[Pipeline] Bump version to $VERSION"
               git push -u origin ${newBranch}
             displayName: Creating pull request
