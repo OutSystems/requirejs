@@ -9,8 +9,8 @@ stages:
   jobs:
   - job: Build_Validate
     displayName: 'Build and validate minify require.js'
-    name: Build_Validate
-    runs-on: ubuntu-latest
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
       - script: | 
           npm i -y
