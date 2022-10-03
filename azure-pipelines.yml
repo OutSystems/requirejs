@@ -35,7 +35,6 @@ stages:
               git branch
               git pull
             displayName: Fetching assets
-          #Restore the project packages
           - task: npmAuthenticate@0
             inputs:
               workingFile: '.npmrc'
