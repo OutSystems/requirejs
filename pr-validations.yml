@@ -7,9 +7,9 @@ stages:
 - stage: Build
   displayName: 'Build'
   jobs:
-  - build:
+  - job: Build_Validate
     displayName: 'Build and validate minify require.js'
-    name: Build
+    name: Build_Validate
     runs-on: ubuntu-latest
     steps:
       - script: | 
