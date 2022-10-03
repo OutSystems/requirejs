@@ -3,7 +3,8 @@ name: Build and validate minify require.js
 pr:
   branches:
     include:
-    - fix/yaml
+    - '*'
+
 stages: 
 - stage: Build
   displayName: 'Build'
