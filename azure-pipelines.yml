@@ -2,7 +2,6 @@ trigger:
   branches:
     include:
     - outsystems
-    - fix/yaml
 pr: none
 
 variables:
