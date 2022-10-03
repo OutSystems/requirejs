@@ -1,6 +1,5 @@
 name: Build and validate minify require.js
 
-trigger: none
 pr:
   branches:
     include:
