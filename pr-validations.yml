@@ -4,13 +4,15 @@ pr:
   branches:
     include:
     - fix/yaml
-
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - script: | 
-          npm i -y
-          npx uglifyjs require.js -mc --comments -o ./output.txt
-        displayName: Bundling requirejs
+stages: 
+- stage: Build
+  displayName: 'Build'
+  jobs:
+  - build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+        - script: | 
+            npm i -y
+            npx uglifyjs require.js -mc --comments -o ./output.txt
+          displayName: Bundling requirejs
