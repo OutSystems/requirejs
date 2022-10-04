@@ -31,17 +31,8 @@ stages:
   - 'Build'
   displayName: 'Deploy'
   jobs:
-  - job:
-    displayName: 'Validate output'
-    timeoutInMinutes: 8
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: |
-        echo '$(dependencies.build.outputs)'
-        echo '$(dependencies.Build.outputs)'
   - deployment: Deploy
-    condition: and(succeeded(), eq(dependencies.Build.outputs['Build.shouldDeploy'], 'true'))
+    condition: and(succeeded(), eq(stageDependencies.Build.Build.shouldDeploy, 'true'))
     displayName: 'Deploy to npm private repository and creates a git release'
     timeoutInMinutes: 8
     pool:
