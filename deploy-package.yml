@@ -16,14 +16,14 @@ variables:
 stages: 
 - stage: Build
   jobs:
-  - job: CheckBump
+  - job: Build
     timeoutInMinutes: 8
     pool:
       vmImage: 'windows-latest'
     steps:
     - bash: |
         [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true" 
-      name: setVar
+      name: CheckCommit
 
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
@@ -62,7 +62,7 @@ stages:
         publishLocation: 'pipeline'
 
 - stage: Deploy
-  condition: and(succeeded(), eq(dependencies.Build.outputs['CheckBump.setVar.shouldDeploy'], 'true'))
+  condition: and(succeeded(), eq(dependencies.Build.outputs['Build.CheckCommit.shouldDeploy'], 'true'))
   dependsOn: Build
   displayName: 'Deploy'
   jobs:
