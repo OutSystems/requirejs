@@ -13,7 +13,7 @@ variables:
   ReportDir: '$(Common.TestResultsDirectory)\coverage_report'
   TagName: 'v$(Build.BuildNumber)'
   ShouldDeploy: false
-  isBump: $[eq('$(Build.SourceVersionMessage)', 'Test Bump')]
+  isBump: $[eq('v$(Build.SourceVersionMessage)', 'Test Bump')]
   
 stages: 
 - stage: Build
