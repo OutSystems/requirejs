@@ -6,7 +6,7 @@ pr: none
 
 variables:
   SourcesDirectory: '$(Build.SourcesDirectory)'
-  Project: '<RepoName>'
+  Project: 'requirejs'
   BuildConfiguration: 'Release'
   Config: '--configuration=$(BuildConfiguration)'
   CakePathLocation: '$(System.DefaultWorkingDirectory)'
@@ -16,7 +16,6 @@ variables:
 stages: 
 - stage: Build
   displayName: 'Build'
-  condition: contains('Bump', <COMMIT TITTLE>)
   jobs:
   - job: Build
     displayName: 'Build Job'
@@ -63,7 +62,8 @@ stages:
 
 - stage: Deploy
   displayName: 'Deploy'
-  condition: contains('Bump', <COMMIT TITTLE>)
+  dependsOn:
+      - Build
   jobs:
   - deployment: Deploy
     displayName: 'Deploy to npm private repository and creates a git release'
