@@ -76,6 +76,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self
+          - script: | 
+              git fetch
+              git branch
+              git pull
+            displayName: Fetching assets
+          - task: npmAuthenticate@0
+            inputs:
+              workingFile: '.npmrc'
+              customEndpoint: 'NPM Authentication Token'
+          #Retrieve current version
           - bash: |
               VERSION=`cat "package.json" | jq -r ".version"`
               echo "##vso[task.setvariable variable=TagName;]$VERSION"
