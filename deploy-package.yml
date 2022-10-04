@@ -12,8 +12,8 @@ variables:
   CakePathLocation: '$(System.DefaultWorkingDirectory)'
   ReportDir: '$(Common.TestResultsDirectory)\coverage_report'
   TagName: 'v$(Build.BuildNumber)'
-  ShouldDeploy: false
-  isBump: $[eq('$(Build.SourceVersionMessage)', 'TestBump')]
+  shouldDeploy: false
+  isBump: $[eq('$(shouldDeploy)', 'false')]
   
 stages: 
 - stage: Build
@@ -26,9 +26,9 @@ stages:
       vmImage: 'windows-latest'
     steps:
     - bash: |
-        [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=ShouldDeploy]true"
+        [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy]true"
     - bash: |
-        echo "Deploy: '$(ShouldDeploy)'"
+        echo "Deploy: '$(shouldDeploy)'"
         echo "isBump: '$(isBump)'"
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
@@ -69,7 +69,7 @@ stages:
 
 - stage: Deploy
   displayName: 'Deploy'
-  condition: and(succeeded(), eq(variables.ShouldDeploy, 'true'))
+  condition: and(succeeded(), eq('$(shouldDeploy)', 'true'))
   jobs:
   - deployment: Deploy
     displayName: 'Deploy to npm private repository and creates a git release'
