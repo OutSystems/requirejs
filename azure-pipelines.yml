@@ -1,8 +1,7 @@
-trigger:
-  branches:
-    include:
-    - outsystems
-    - fix/yaml
+trigger: none
+##  branches:
+##    include:
+##      outsystems
 pr: none
 
 variables:
@@ -31,7 +30,6 @@ stages:
           - checkout: self
           - script: | 
               git fetch
-              git switch fix/yaml
               git branch
               git pull
             displayName: Fetching assets
