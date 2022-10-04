@@ -27,42 +27,8 @@ stages:
       name: setOutput
       bash: |
           [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
-    #Install Nuget version 5.2
-    - task: NuGetToolInstaller@1
-      displayName: 'Install NuGet'
-      inputs:
-        versionSpec: 5.2.x
-
-    #Restore the project packages
-    - task: npmAuthenticate@0
-      inputs:
-        workingFile: '.npmrc'
-        customEndpoint: 'NPM Authentication Token'
-
-    - task: cake-build.cake.cake-build-task.Cake@0
-      displayName: Install
-      inputs:
-        target: Install
-        arguments: '--configuration=Release -Pipeline'
-
-    - task: cake-build.cake.cake-build-task.Cake@0
-      displayName: Build
-      inputs:
-        target: Build
-        arguments: '--configuration=Release -Pipeline'
-
-    - task: cake-build.cake.cake-build-task.Cake@0
-      displayName: Tests
-      inputs:
-        target: Tests
-        arguments: '--configuration=Release -Pipeline'
-     
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)'
-        artifact: 'artifacts'
-        publishLocation: 'pipeline'
-    
+    - script:
+        echo $(setOutput.shouldDeploy)
 
 - stage: Deploy
   dependsOn:
