@@ -23,21 +23,26 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-    - script: |
-        if('$(Build.SourceVersionMessage)' -contains "bump") {
-          echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
-          echo "It's true!"
-        }
-      name: setOutput
-      
+    - bash: |
+        [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
+    - bash: |
+        echo "Deploy: '$(shouldDeploy)'"    
 
 - stage: Deploy
   dependsOn:
   - 'Build'
   displayName: 'Deploy'
   jobs:
+  - job:
+    displayName: 'Validate output'
+    timeoutInMinutes: 8
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - script: |
+        echo $(dependencies.build.outputs)
   - deployment: Deploy
-    condition: and(succeeded(), eq(dependencies.Build.outputs['Build.setOutput.shouldDeploy'], 'true'))
+    condition: and(succeeded(), eq(dependencies.build.outputs['build_job.build_job.setRunTests.runTests'], 'true'))
     displayName: 'Deploy to npm private repository and creates a git release'
     timeoutInMinutes: 8
     pool:
