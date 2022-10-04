@@ -13,7 +13,7 @@ variables:
   ReportDir: '$(Common.TestResultsDirectory)\coverage_report'
   TagName: 'v$(Build.BuildNumber)'
   shouldDeploy: false
-  isBump: $[eq('$(shouldDeploy)', 'false')]
+  isBump: $[eq('$(Build.SourceVersionMessage)', 'TestBump')]
   
 stages: 
 - stage: Build
@@ -69,9 +69,9 @@ stages:
 
 - stage: Deploy
   displayName: 'Deploy'
-  condition: and(succeeded(), eq('$(shouldDeploy)', 'true'))
   jobs:
   - deployment: Deploy
+    condition: and(succeeded(), eq('$(shouldDeploy)', 'true'))
     displayName: 'Deploy to npm private repository and creates a git release'
     timeoutInMinutes: 8
     pool:
