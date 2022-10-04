@@ -25,13 +25,11 @@ stages:
     steps:
     - task: PowerShell@2
       name: setOutput
-      inputs:
-        pwsh: true
-        script: |
-          if('$(Build.SourceVersionMessage)' -contains "bump") {
-            echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
-            echo "It's true!"
-          } 
+      script: |
+        if('$(Build.SourceVersionMessage)' -contains "bump") {
+          echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
+          echo "It's true!"
+        }
 
 - stage: Deploy
   dependsOn:
