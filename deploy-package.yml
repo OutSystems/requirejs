@@ -13,6 +13,7 @@ variables:
   ReportDir: '$(Common.TestResultsDirectory)\coverage_report'
   TagName: 'v$(Build.BuildNumber)'
   ShouldDeploy: false
+  isBump: $[contains(variables['Build.SourceVersionMessage'], 'Bump')]
   
 stages: 
 - stage: Build
@@ -27,7 +28,8 @@ stages:
     - bash: |
         [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=ShouldDeploy]true"
     - bash: |
-        echo '$(ShouldDeploy)'
+        echo "Deploy: '$(ShouldDeploy)'"
+        echo "isBump: '$(isBump)'"
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet'
@@ -67,9 +69,7 @@ stages:
 
 - stage: Deploy
   displayName: 'Deploy'
-  dependsOn:
-      - Build
-  condition: eq(variables.ShouldDeploy, 'true')
+  condition: and(succeeded(), eq(variables.ShouldDeploy, 'true'))
   jobs:
   - deployment: Deploy
     displayName: 'Deploy to npm private repository and creates a git release'
