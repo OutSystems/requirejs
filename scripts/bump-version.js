@@ -46,15 +46,17 @@ readFile('./require.js', 'utf-8', function (err, contents) {
         console.log(err);
         return;
     }
+
+    exec('git add -u');
+
+    exec(`git commit -m "Bump version to ${newVersionNumber}"`);
   });
 });
 
-exec('git add -u');
 
-exec(`git commit -m "Bump version to ${newVersionNumber}"`);
 
-exec(`git push -u origin ${newBranch}`);
+//exec(`git push -u origin ${newBranch}`);
 
-exec(`gh pr create --title "Bump version to ${newVersionNumber}" --body "Bump package version to ${newVersionNumber}" --base ${currentBranch}`);
+//exec(`gh pr create --title "Bump version to ${newVersionNumber}" --body "Bump package version to ${newVersionNumber}" --base ${currentBranch}`);
 
 process.chdir(cwd);
