@@ -1,13 +1,14 @@
 {
   "name": "@outsystems/requirejs",
-  "version": "1.0.0",
+  "version": "1.0.1-outsystems.1",
   "license": "MIT",
   "volo": {
     "url": "https://raw.github.com/requirejs/requirejs/{version}/require.js"
   },
   "main": "require.js",
   "scripts": {
-    "pretest": "jscs . && jshint require.js"
+    "pretest": "jscs . && jshint require.js",
+    "bump": "node ./scripts/bump-version"
   },
   "repository": {
     "type": "git",
