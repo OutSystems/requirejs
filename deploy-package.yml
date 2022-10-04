@@ -23,6 +23,7 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
+    - bash: echo '$(Build.SourceVersionMessage)'
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet'
