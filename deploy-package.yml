@@ -28,9 +28,8 @@ stages:
       inputs:
         targetType: inline
         pwsh: true
-        script: |
+        bash: |
           [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
-
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet'
@@ -74,7 +73,7 @@ stages:
   displayName: 'Deploy'
   jobs:
   - deployment: Deploy
-    condition: and(succeeded(), eq(dependencies.Build.outputs['Build.Build.setOutput.shouldDeploy'], 'true'))
+    condition: and(succeeded(), eq(dependencies.Build.outputs['Build.setOutput.shouldDeploy'], 'true'))
     displayName: 'Deploy to npm private repository and creates a git release'
     timeoutInMinutes: 8
     pool:
