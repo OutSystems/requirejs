@@ -64,7 +64,7 @@ stages:
   displayName: 'Deploy'
   dependsOn:
       - Build
-  condition: contains('variables['Build.SourceVersionMessage'], 'Bump')
+  condition: contains(variables['Build.SourceVersionMessage'], 'Bump')
   jobs:
   - deployment: Deploy
     displayName: 'Deploy to npm private repository and creates a git release'
