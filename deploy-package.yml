@@ -12,6 +12,7 @@ variables:
   CakePathLocation: '$(System.DefaultWorkingDirectory)'
   ReportDir: '$(Common.TestResultsDirectory)\coverage_report'
   TagName: 'v$(Build.BuildNumber)'
+  ShouldDeploy: false
   
 stages: 
 - stage: Build
@@ -23,7 +24,9 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-    - bash: echo '$(Build.SourceVersionMessage)'
+    - bash: |
+        echo '$(Build.SourceVersionMessage)' | grep -i -q "bump" && '$(ShouldDeploy)'=true
+        echo '$(ShouldDeploy)'
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
       displayName: 'Install NuGet'
