@@ -69,7 +69,7 @@ stages:
   displayName: 'Deploy'
   dependsOn:
       - Build
-  condition: eq('$(ShouldDeploy)', 'True')
+  condition: eq(variables['ShouldDeploy'], 'True')
   jobs:
   - deployment: Deploy
     displayName: 'Deploy to npm private repository and creates a git release'
