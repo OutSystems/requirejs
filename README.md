@@ -33,6 +33,15 @@ RequireJS works in IE 6+, Firefox 2+, Safari 3.2+, Chrome 3+, and Opera 10+.
 
 [Latest Release](https://requirejs.org/docs/download.html)
 
+## Development
+To start introducing changes, create a new branch based on the outsystems branch.
+As soon as the changes are accepted and merged, you can bump the version using
+
+    npm run bump
+
+Doing so, will create a new tag and update the artifact repository with the new version, which then will be available for you to use in another repository.
+
+
 ## License
 
 MIT
