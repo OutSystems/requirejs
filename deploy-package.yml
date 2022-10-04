@@ -25,10 +25,7 @@ stages:
     steps:
     - task: PowerShell@2
       name: setOutput
-      inputs:
-        targetType: inline
-        pwsh: true
-        bash: |
+      bash: |
           [[ '$(Build.SourceVersionMessage)' = *"Bump"* ]] && echo "##vso[task.setvariable variable=shouldDeploy;isOutput=true]true"
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
