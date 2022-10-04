@@ -25,7 +25,7 @@ stages:
       vmImage: 'windows-latest'
     steps:
     - bash: |
-        echo '$(Build.SourceVersionMessage)' | grep -i -q "bump" && '$(ShouldDeploy)'=true
+        echo '$(Build.SourceVersionMessage)' | grep -i -q "bump" && echo "##vso[task.setvariable variable=ShouldDeploy;]true"
         echo '$(ShouldDeploy)'
     #Install Nuget version 5.2
     - task: NuGetToolInstaller@1
