@@ -80,7 +80,7 @@ stages:
           - script: | 
               git fetch
               git branch
-              git checkout origin/outsystems
+              git switch outsystems
               git pull
             displayName: Fetching assets
           - task: npmAuthenticate@0
