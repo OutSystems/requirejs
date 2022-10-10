@@ -1,6 +1,6 @@
 {
   "name": "@outsystems/requirejs",
-  "version": "1.0.1-outsystems.2",
+  "version": "2.3.7-outsystems.1",
   "license": "MIT",
   "volo": {
     "url": "https://raw.github.com/requirejs/requirejs/{version}/require.js"
