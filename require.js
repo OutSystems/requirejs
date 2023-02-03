@@ -1723,7 +1723,8 @@ var requirejs, require, define;
              * Callback for script errors.
              */
             onScriptError: function (evt) {
-                var originalAttrId = attrId = getScriptData(evt).id;
+                var originalAttrId = getScriptData(evt).id;
+                var attrId = originalAttrId;
                 if (!hasPathFallback(originalAttrId)) {
                     var parents = [];
                     var matchFound;
