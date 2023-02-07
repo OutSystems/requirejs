@@ -164,10 +164,11 @@ var requirejs, require, define;
      *
      * @returns {Error}
      */
-    function makeError(id, msg, err, requireModules) {
+    function makeError(id, msg, err, requireModules, parentModules) {
         var e = new Error(msg + '\nhttps://requirejs.org/docs/errors.html#' + id);
         e.requireType = id;
         e.requireModules = requireModules;
+        e.parentModules = parentModules;
         if (err) {
             e.originalError = err;
         }
@@ -1722,23 +1723,30 @@ var requirejs, require, define;
              * Callback for script errors.
              */
             onScriptError: function (evt) {
-                var data = getScriptData(evt);
-                if (!hasPathFallback(data.id)) {
+                var originalAttrId = getScriptData(evt).id;
+                var attrId = originalAttrId;
+                if (!hasPathFallback(originalAttrId)) {
                     var parents = [];
-                    eachProp(registry, function(value, key) {
-                        if (key.indexOf('_@r') !== 0) {
-                            each(value.depMaps, function(depMap) {
-                                if (depMap.id === data.id) {
-                                    parents.push(key);
-                                    return true;
-                                }
-                            });
-                        }
-                    });
-                    return onError(makeError('scripterror', 'Script error for "' + data.id +
+                    var matchFound;
+                    do {
+                        matchFound = false;
+                        eachProp(registry, function(value, key) {
+                            if (key.indexOf('_@r') !== 0) {
+                                each(value.depMaps, function(depMap) {
+                                    if (depMap.id === attrId) {
+                                        parents.push(key);
+                                        attrId = key;
+                                        matchFound = true;
+                                        return true;
+                                    }
+                                });
+                            }
+                        });
+                    } while(matchFound);
+                    return onError(makeError('scripterror', 'Script error for "' + originalAttrId +
                                              (parents.length ?
                                              '", needed by: ' + parents.join(', ') :
-                                             '"'), evt, [data.id]));
+                                             '"'), evt, [originalAttrId], parents));
                 }
             }
         };
