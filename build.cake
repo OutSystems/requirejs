@@ -30,14 +30,14 @@ var build=Task("Build")
     Information("Ending Build");
 });
 var tests = Task("Tests")
-	.Does(()=>
-	{	
+    .Does(()=>
+    {
         Information("Starting Tests");
         var conf = ParseJsonFromFile("package.json");
         if(conf["scripts"]["test"]!=null)
             NpmRunScript("test");
         Information("Ending Tests");
-	});
+    });
 
 var package = Task("Package")
     .Does(()=>
@@ -50,6 +50,7 @@ var package = Task("Package")
     });
     
 Task("Default")
+    .IsDependentOn("Build")
     .IsDependentOn("Package");
 
 RunTarget(target);

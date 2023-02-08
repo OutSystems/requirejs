@@ -8,7 +8,9 @@
   "main": "require.js",
   "scripts": {
     "pretest": "jscs . && jshint require.js",
-    "bump": "node ./scripts/bump-version"
+    "bump": "node ./scripts/bump-version",
+    "build": "npm install && mkdirp ./bin && npm run copyfile",
+    "copyfile": "copy \"node_modules\\\\requirejs\\\\bin\\\\r.js\" \"bin\""
   },
   "repository": {
     "type": "git",
@@ -16,9 +18,15 @@
   },
   "devDependencies": {
     "jscs": "^1.12.0",
-    "jshint": "^2.7.0"
+    "jshint": "^2.7.0",
+    "mkdirp": "^2.1.3",
+    "requirejs": "^2.3.6"
   },
   "dependencies": {
     "uglify-js": "^3.17.1"
-  }
+  },
+  "files": [
+    "require.js",
+    "bin/r.js"
+  ]
 }
