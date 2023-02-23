@@ -1,5 +1,5 @@
 {
-  "name": "@outsystems/requirejs",
+  "name": "requirejs",
   "version": "2.3.7-outsystems.2",
   "license": "MIT",
   "volo": {
