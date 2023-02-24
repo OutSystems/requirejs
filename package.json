@@ -5,7 +5,11 @@
   "volo": {
     "url": "https://raw.github.com/outsystems/requirejs/{version}/require.js"
   },
-  "main": "require.js",
+  "main": "./bin/r.js",
+  "bin": {
+    "r.js": "./bin/r.js",
+    "r_js": "./bin/r.js"
+  },
   "scripts": {
     "pretest": "jscs . && jshint require.js",
     "bump": "node ./scripts/bump-version",
