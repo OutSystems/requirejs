@@ -27,7 +27,7 @@
     "requirejs": "^2.3.6"
   },
   "dependencies": {
-    "uglify-js": "^3.17.1"
+    "uglify-js": "^3.17.4"
   },
   "files": [
     "require.js",
