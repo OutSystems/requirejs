@@ -1805,12 +1805,25 @@ var requirejs, require, define;
         return context.require(deps, callback, errback);
     };
 
+    // If this function is altered, please replicate the changes in the configSanitized.html test file
+    function sanitizeConfig(config) {
+        // Denylist of potentially harmful properties or values
+        const denylist = ["__proto__", "constructor", "prototype"];
+        for (const key in config) {
+            if (denylist.includes(key)) {
+                delete config[key];
+            }
+        }
+        return config;
+    }
+
     /**
      * Support require.config() to make it easier to cooperate with other
      * AMD loaders on globally agreed names.
      */
     req.config = function (config) {
-        return req(config);
+        const sanitizedConfig = sanitizeConfig(config);
+        return req(sanitizedConfig);
     };
 
     /**
