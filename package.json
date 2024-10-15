@@ -32,6 +32,7 @@
   },
   "files": [
     "require.js",
+    "require.min.js",
     "bin/r.js"
   ]
 }
