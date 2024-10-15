@@ -13,8 +13,9 @@
   "scripts": {
     "pretest": "jscs . && jshint require.js",
     "bump": "node ./scripts/bump-version",
-    "build": "npm install && mkdirp ./bin && npm run copyfile",
-    "copyfile": "copy \"node_modules\\\\requirejs\\\\bin\\\\r.js\" \"bin\""
+    "build": "npm install && mkdirp ./bin && npm run copyfile && npm run minifyfile",
+    "copyfile": "copy \"node_modules\\\\requirejs\\\\bin\\\\r.js\" \"bin\"",
+    "minifyfile": "npx uglifyjs require.js -mc --comments -o require.min.js"
   },
   "repository": {
     "type": "git",
