@@ -1808,8 +1808,8 @@ var requirejs, require, define;
     // If this function is altered, please replicate the changes in the configSanitized.html test file
     function sanitizeConfig(config) {
         // Denylist of potentially harmful properties or values
-        const denylist = ["__proto__", "constructor", "prototype"];
-        for (const key in config) {
+        var denylist = ["__proto__", "constructor", "prototype"];
+        for (var key in config) {
             if (denylist.includes(key)) {
                 delete config[key];
             }
@@ -1822,7 +1822,7 @@ var requirejs, require, define;
      * AMD loaders on globally agreed names.
      */
     req.config = function (config) {
-        const sanitizedConfig = sanitizeConfig(config);
+        var sanitizedConfig = sanitizeConfig(config);
         return req(sanitizedConfig);
     };
 
